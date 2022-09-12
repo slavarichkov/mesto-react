@@ -1,70 +1,15 @@
-# Getting Started with Create React App
+#Проект: Mesto
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##Описание проекта Учебный проект о путешествиях по России
 
-## Available Scripts
+###Цель проекта Научиться работать и реализовывать следующий функционал: Проект должен корректно отображаться на экранах популярных размеров. Тексты написаны бесплатным шрифтом ”Inter“ от дизайнеров «Фигмы». Научиться работать с макетом в графическом редакторе «Фигма». Верстать адаптивные сайты на Grid Layout. Использовать media queries для задания специфических правил для разных размеров экранов. Научиться работать с ветками (branches) в гите. При загрузке на странице должно быть 6 карточек, которые добавит JavaScript. В проекте пристуствует форма добавления новой карточки: Можно написать имя карточки и дать ссылку на картинку. карточки можно лайкать и удалять. Изображения открываются нажатием на картинку и закрываются кликом на крестик Реализовано плавное открытие и закрытие попапов
 
-In the project directory, you can run:
+###Cистемные требования
 
-### `npm start`
+Windows 7, Windows 8, Windows 8.1, Windows 10 или более поздней версии. Процессор Intel Pentium 4 или более поздней версии с поддержкой SSE3. Примечание. Также поддерживаются следующие серверные ОС: Windows Server 2008 R2, Windows Server 2012, Windows Server 2012 R2 или Windows Server 2016.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+macOS Требования к системе: OS X El Capitan (10.11) или более поздней версии.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Linux Требования к системе: Ubuntu 18.04 (64-разрядная версия) или более поздней версии, Debian 10 или более поздней версии, openSUSE 15.2 или более поздней версии, Fedora Linux 32 или более поздней версии. Процессор Intel Pentium 4 или более поздней версии с поддержкой SSE3.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Android Требования к системе: Android 6.0 Marshmallow или более поздней версии. Google, а также другие связанные знаки и логотипы являются товарными знаками компании Google LLC. Все другие названия компаний и продуктов являются товарными знаками соответствующих компаний.
