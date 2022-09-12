@@ -8,28 +8,21 @@ function Main(props) {
     const [userName, setUserName] = useState('');
     const [userDescription, setUserDescription] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
-
     const [cards, setCards] = useState([]);
 
-    // запрос данных пользователя с сервера
+    // запрос данных пользователя и карточек с сервера
     useEffect(() => {
-        api.getUserInfo().then((data) => {
-            setUserName(data.name);
-            setUserDescription(data.about);
-            setUserAvatar(data.avatar);
-        }).catch((err) => {
-            console.log(err);
-        })
+        Promise.all([api.getUserInfo(), api.getImages()])
+            .then(([infoUser, initialCards]) => {
+                setUserName(infoUser.name);
+                setUserDescription(infoUser.about);
+                setUserAvatar(infoUser.avatar);
+                setCards(initialCards);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }, []);
-
-    //запрос карточек с сервера
-    useEffect(() => {
-        api.getImages().then((dataCards) => {
-            setCards(dataCards);
-        })
-    }, [])
-
-    
 
     return (
         <main>
@@ -48,10 +41,8 @@ function Main(props) {
                 <button className="profile__add-button" type="button" onClick={props.onAddPlace}></button>
             </section>
             <section className="elements">
-                {/* заготовка для изображения пользователя (карточки) */}
-                {cards.map(card => {
-                    return <Card key={card._id} id={card._id} name={card.name} src={card.link} likes={card.likes.length} onImageClick ={props.onCardClick} />
-                })}
+                {/**  заготовка для изображения пользователя (карточки) */}
+                <Card dataCards={cards} onImageClick={props.onCardClick} />
             </section>
         </main>
     )

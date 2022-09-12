@@ -7,49 +7,43 @@ import ImagePopup from './ImagePopup';
 
 
 function App() {
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isDeletePlacePopupOpen, setIsDeletePlace] = useState(false);
+  const [isImagePopupOpened, setIsImagePopupOpened] = useState(null);
+  const [selectedCard, setSelectedCard] = useState({});
 
   // функции открытия попапов
   function handleEditAvatarClick() {
-    setEditAvatarPopupOpen('popup_open')
+    setIsEditAvatarPopupOpen('popup_open')
   }
-
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState('');
-
 
   function handleEditProfileClick() {
-    setEditProfilePopupOpen('popup_open');
+    setIsEditProfilePopupOpen('popup_open');
   }
-
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState('');
 
   function handleAddPlaceClick() {
-    setAddPlacePopupOpen('popup_open');
+    setIsAddPlacePopupOpen('popup_open');
   }
-
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState('');
 
   function handleDeletePlaceClick() {
-    setDeletePlace('popup_open');
+    setIsDeletePlace('popup_open');
   }
 
-  const [isDeletePlacePopupOpen, setDeletePlace] = useState('');
-
-  function handleCardClick(props) {
-    setSelectedCard('popup_open');
-    setPropsCard(props);
+  function handleCardClick(src, name) {
+    setIsImagePopupOpened('popup_open');
+    setSelectedCard({ src, name }); //пробросить данные открытой карточки из Card для добавления в попап масштабируемого изображения
   }
-
-  const [selectedCard, setSelectedCard] = useState('');
-  const [propsCard, setPropsCard] = useState({});
 
   // функция закрытия попапов
   function closeAllPopups(e) {
     e.preventDefault();
-    setEditProfilePopupOpen('');
-    setEditAvatarPopupOpen('');
-    setAddPlacePopupOpen('');
-    setDeletePlace('');
-    setSelectedCard('');
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsDeletePlace(false);
+    setIsImagePopupOpened(null);
   }
 
   function handleCloseAllPopupsEcs(e) {
@@ -65,25 +59,77 @@ function App() {
   }
 
   useEffect(() => {
-    document.addEventListener('click', handleCloseAllPopupsClickOverlay);
-    document.addEventListener('keydown', handleCloseAllPopupsEcs);
-  }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, selectedCard]);
+    if (
+      [isEditAvatarPopupOpen, isAddPlacePopupOpen, isDeletePlacePopupOpen, isEditProfilePopupOpen].includes === false
+      || isImagePopupOpened !== null
+    ) {
+      document.addEventListener('click', handleCloseAllPopupsClickOverlay);
+      document.addEventListener('keydown', handleCloseAllPopupsEcs);
+    }
+    else {
+      return () => {
+        document.removeEventListener('click', handleCloseAllPopupsClickOverlay);
+        document.removeEventListener('keydown', handleCloseAllPopupsEcs);
+      }
+    }
+  }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
 
   return (
     <div className="page">
       <Header />
-      <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
+      <Main onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick} />
+      {/**  <!--Попап Редактирование профиля --> */}
+      <PopupWithForm name='popup_user_input'
+        text='Редактировать профиль'
+        isOpen={isEditProfilePopupOpen}
+        isClose={closeAllPopups}
+        children={
+          <>
+            <input type="text" placeholder="Имя" className="popup__input popup__input_field_firstname"
+              name="firstname" id="username-input" minLength="2" maxLength="40" required />
+            <input type="text" placeholder="Профессия" className="popup__input"
+              name="profession" id="profession-input" minLength="2" maxLength="200" required />
+          </>
+        }
+      />
+      {/** <!--Попап добавление изображений пользователем --> */}
+      <PopupWithForm name='popup_image_content'
+        text='Новое место'
+        isOpen={isAddPlacePopupOpen}
+        isClose={closeAllPopups}
+        children={
+          <>
+            <input type="text" placeholder="Название" className="popup__input popup__input_name_image"
+              name="image-title" id="input-image" minLength="2" maxLength="30" required />
+            <input type="url" placeholder="Ссылка на картинку" className="popup__input popup__input_link_image"
+              name="link" id="profession-input" required />
+          </>
+        }
+      />
+      {/** <!-- Попап подтверждения удаления карточки --> */}
+      <PopupWithForm name='popup_card_remove'
+        text='Вы уверены?'
+        isOpen={isDeletePlacePopupOpen}
+        isClose={closeAllPopups} />
+      {/** <!--Попап форма редактирования аватара --> */}
+      <PopupWithForm name='popup_avatar_redact'
+        text='Обновить аватар'
+        isOpen={isEditAvatarPopupOpen}
+        isClose={closeAllPopups}
+        children={
+          <input type="url" placeholder="Ссылка" className="popup__input popup__input_name_image"
+            name="link" id="ava-link" required />
+        }
+      />
+      {/** <!--Попап Масштабированное изображение --> */}
+      < ImagePopup isOpen={isImagePopupOpened}
+        name={selectedCard.name}
+        link={selectedCard.src}
+        onClose={closeAllPopups} />
       <Footer />
-      {/* <!--Попап Редактирование профиля --> */}
-      <PopupWithForm name='popup_user_input' text='Редактировать профиль' isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} nameInput={'Введите Имя'} nameSubInput={'Введите профессию'} />
-      {/* <!--Попап добавление изображений пользователем --> */}
-      <PopupWithForm name='popup_image_content' text='Новое место' isOpen={isAddPlacePopupOpen} isClose={closeAllPopups} nameInput={'Введите название'} nameSubInput={'Введите ссылку на изображение'} />
-      {/* <!-- Попап подтверждения удаления карточки --> */}
-      <PopupWithForm name='popup_card_remove' text='Вы уверены?' isOpen={isDeletePlacePopupOpen} isClose={closeAllPopups} />
-      {/* <!--Попап форма редактирования аватара --> */}
-      <PopupWithForm name='popup_avatar_redact' text='Обновить аватар' isOpen={isEditAvatarPopupOpen} isClose={closeAllPopups} nameSubInput={'Введите ссылку на изображение'} />
-      {/* <!--Попап Масштабированное изображение --> */}
-      <ImagePopup isOpen={selectedCard} name={propsCard.name} link={propsCard.src} onClose={closeAllPopups} />
     </div>
   );
 }

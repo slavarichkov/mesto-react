@@ -1,13 +1,13 @@
 import React from 'react';
 
-function ImagePopup(props) {
+function ImagePopup({isOpen, onClose, link, name}) {
 
     return (
-        <div className={`popup popup_image_scale ${props.isOpen} popup_overlay`}>
+        <div className={`popup popup_image_scale ${isOpen} popup_overlay`}>
             <div className="popup__image-content">
-                <button className="popup__close-button popup__close-button_image_scale" type="button" onClick = {props.onClose}/>
-                <img className="popup__image-scale" src= {props.link} alt={props.name} />
-                <p className="popup__image-title">{props.name}</p>
+                <button className="popup__close-button popup__close-button_image_scale" type="button" onClick = {onClose}/>
+                <img className="popup__image-scale" src= {link} alt={name} />
+                <p className="popup__image-title">{name}</p>
             </div>
         </div>
     )
