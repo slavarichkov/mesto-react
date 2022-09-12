@@ -22,10 +22,7 @@ function Card({ onImageClick, dataCards }) {
                     </div>
                 </div>)
         })
-
     )
-
-
 }
 
 export default Card;
