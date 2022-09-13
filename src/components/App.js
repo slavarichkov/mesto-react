@@ -33,7 +33,6 @@ function App() {
 
   function handleCardClick(dataCard) {
     setIsImagePopupOpened(true);
-    console.log(dataCard);
     setSelectedCard(dataCard); //пробросить данные открытой карточки из Card для добавления в попап масштабируемого изображения
   }
 
@@ -60,11 +59,15 @@ function App() {
   }
 
   useEffect(() => {
-    document.addEventListener('click', handleCloseAllPopupsClickOverlay);
-    document.addEventListener('keydown', handleCloseAllPopupsEcs);
-    return () => {
-      document.removeEventListener('click', handleCloseAllPopupsClickOverlay);
-      document.removeEventListener('keydown', handleCloseAllPopupsEcs);
+    if (
+      [isEditAvatarPopupOpen, isAddPlacePopupOpen, isDeletePlacePopupOpen, isEditProfilePopupOpen, isImagePopupOpened].includes(true)
+    ) {
+      document.addEventListener('click', handleCloseAllPopupsClickOverlay);
+      document.addEventListener('keydown', handleCloseAllPopupsEcs);
+      return () => {
+        document.removeEventListener('click', handleCloseAllPopupsClickOverlay);
+        document.removeEventListener('keydown', handleCloseAllPopupsEcs);
+      }
     }
   }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
 
