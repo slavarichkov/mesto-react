@@ -92,6 +92,8 @@ function App() {
           </>
         }
       />
+      <Footer />
+
       {/** <!--Попап добавление изображений пользователем --> */}
       <PopupWithForm name='popup_image_content'
         text='Новое место'
@@ -106,14 +108,6 @@ function App() {
           </>
         }
       />
-      <Footer />
-
-      
-      {/** <!-- Попап подтверждения удаления карточки --> */}
-      <PopupWithForm name='popup_card_remove'
-        text='Вы уверены?'
-        isOpen={isDeletePlacePopupOpen}
-        isClose={closeAllPopups} />
       {/** <!--Попап форма редактирования аватара --> */}
       <PopupWithForm name='popup_avatar_redact'
         text='Обновить аватар'
@@ -124,6 +118,11 @@ function App() {
             name="link" id="ava-link" required />
         }
       />
+      {/** <!-- Попап подтверждения удаления карточки --> */}
+      <PopupWithForm name='popup_card_remove'
+        text='Вы уверены?'
+        isOpen={isDeletePlacePopupOpen}
+        isClose={closeAllPopups} />
       {/** <!--Попап Масштабированное изображение --> */}
       < ImagePopup isOpen={isImagePopupOpened}
         name={selectedCard.name}
