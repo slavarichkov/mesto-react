@@ -16,23 +16,23 @@ function App() {
 
   // функции открытия попапов
   function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen('popup_open')
+    setIsEditAvatarPopupOpen(true)
   }
 
   function handleEditProfileClick() {
-    setIsEditProfilePopupOpen('popup_open');
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen('popup_open');
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleDeletePlaceClick() {
-    setIsDeletePlace('popup_open');
+    setIsDeletePlace(true);
   }
 
   function handleCardClick(src, name) {
-    setIsImagePopupOpened('popup_open');
+    setIsImagePopupOpened(true);
     setSelectedCard({ src, name }); //пробросить данные открытой карточки из Card для добавления в попап масштабируемого изображения
   }
 
@@ -43,7 +43,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsDeletePlace(false);
-    setIsImagePopupOpened(null);
+    setIsImagePopupOpened(false);
   }
 
   function handleCloseAllPopupsEcs(e) {
@@ -59,19 +59,16 @@ function App() {
   }
 
   useEffect(() => {
-    if (
-      [isEditAvatarPopupOpen, isAddPlacePopupOpen, isDeletePlacePopupOpen, isEditProfilePopupOpen].includes !== false
-      || isImagePopupOpened !== null
-    ) {
-      document.addEventListener('click', handleCloseAllPopupsClickOverlay);
-      document.addEventListener('keydown', handleCloseAllPopupsEcs);
+
+    document.addEventListener('click', handleCloseAllPopupsClickOverlay);
+    document.addEventListener('keydown', handleCloseAllPopupsEcs);
+
+    return () => {
+      console.log(2);
+      document.removeEventListener('click', handleCloseAllPopupsClickOverlay);
+      document.removeEventListener('keydown', handleCloseAllPopupsEcs);
     }
-    else {
-      return () => {
-        document.removeEventListener('click', handleCloseAllPopupsClickOverlay);
-        document.removeEventListener('keydown', handleCloseAllPopupsEcs);
-      }
-    }
+
   }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
 
   return (

@@ -42,7 +42,9 @@ function Main(props) {
             </section>
             <section className="elements">
                 {/**  заготовка для изображения пользователя (карточки) */}
-                <Card dataCards={cards} onImageClick={props.onCardClick} />
+                {cards.map(card => {
+                    return <Card key={card._id} id={card._id} name={card.name} src={card.link} likes={card.likes.length} onImageClick={props.onCardClick} />
+                })}
             </section>
         </main>
     )
