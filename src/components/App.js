@@ -107,6 +107,8 @@ function App() {
         }
       />
       <Footer />
+
+      
       {/** <!-- Попап подтверждения удаления карточки --> */}
       <PopupWithForm name='popup_card_remove'
         text='Вы уверены?'
