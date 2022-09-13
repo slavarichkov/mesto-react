@@ -60,7 +60,7 @@ function App() {
 
   useEffect(() => {
     if (
-      [isEditAvatarPopupOpen, isAddPlacePopupOpen, isDeletePlacePopupOpen, isEditProfilePopupOpen].includes === false
+      [isEditAvatarPopupOpen, isAddPlacePopupOpen, isDeletePlacePopupOpen, isEditProfilePopupOpen].includes !== false
       || isImagePopupOpened !== null
     ) {
       document.addEventListener('click', handleCloseAllPopupsClickOverlay);
