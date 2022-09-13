@@ -31,9 +31,10 @@ function App() {
     setIsDeletePlace(true);
   }
 
-  function handleCardClick(src, name) {
+  function handleCardClick(dataCard) {
     setIsImagePopupOpened(true);
-    setSelectedCard({ src, name }); //пробросить данные открытой карточки из Card для добавления в попап масштабируемого изображения
+    console.log(dataCard);
+    setSelectedCard(dataCard); //пробросить данные открытой карточки из Card для добавления в попап масштабируемого изображения
   }
 
   // функция закрытия попапов
@@ -59,16 +60,12 @@ function App() {
   }
 
   useEffect(() => {
-
     document.addEventListener('click', handleCloseAllPopupsClickOverlay);
     document.addEventListener('keydown', handleCloseAllPopupsEcs);
-
     return () => {
-      console.log(2);
       document.removeEventListener('click', handleCloseAllPopupsClickOverlay);
       document.removeEventListener('keydown', handleCloseAllPopupsEcs);
     }
-
   }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
 
   return (

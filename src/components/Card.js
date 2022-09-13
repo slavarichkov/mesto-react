@@ -4,7 +4,7 @@ import React from 'react';
 function Card({ id, src, name, onImageClick, likes }) {
 
     function handleImageClick() {
-        onImageClick(src, name);
+        onImageClick({ src: src, name: name });
     }
 
     return (
