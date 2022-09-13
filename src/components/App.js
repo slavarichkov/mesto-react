@@ -11,7 +11,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isDeletePlacePopupOpen, setIsDeletePlace] = useState(false);
-  const [isImagePopupOpened, setIsImagePopupOpened] = useState(null);
+  const [isImagePopupOpened, setIsImagePopupOpened] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
 
   // функции открытия попапов
