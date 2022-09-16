@@ -2,14 +2,19 @@ import React from 'react';
 import currentUserContext from '../contexts/CurrentUserContext';
 
 
-function Card({ id, src, name, onImageClick, likes }) {
+function Card({ id, src, name, onImageClick, likes, onCardLike }) {
 
     const userInfo = React.useContext(currentUserContext);
-    const isOwn = id === userInfo._id;
-    const isLiked = likes.some(item => userInfo.id === item._id);
+    const isOwn = id === userInfo._id; //проверка для кнопки удаления
+    const isLiked = likes.some(item => userInfo._id === item._id); // проверка для отображения лайка
+    //console.log(userInfo._id)
 
     function handleImageClick() {
-        onImageClick({ src: src, name: name });
+        onImageClick({ src: src, name: name }); // прокинуть параметры для масштабируемого изображения
+    }
+
+    function handleLikeClick() {
+        onCardLike(id, likes)
     }
 
     return (
@@ -19,7 +24,7 @@ function Card({ id, src, name, onImageClick, likes }) {
                 <div className="element__group">
                     <h2 className="element__title">{name}</h2>
                     <div>
-                        <button className={`element__like ${isLiked ? 'element__like_activeted' : ''}`} type="button"></button>
+                        <button className={`element__like ${isLiked? 'element__like_activeted' : ''}`} type="button" onClick={handleLikeClick}></button>
                         <h2 className="element__like-sum">{likes.length}</h2>
                     </div>
                     {isOwn ?
@@ -31,5 +36,6 @@ function Card({ id, src, name, onImageClick, likes }) {
             </div>
         </div>
     )
+    // <button className={`element__like ${isLiked ? 'element__like_activeted' : ''}`} type="button" onClick={handleLikeClick}></button>
 }
 export default Card;

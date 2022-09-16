@@ -9,6 +9,21 @@ function Main(props) {
     const userInfo = React.useContext(currentUserContext);
     const [cards, setCards] = useState([]);
 
+    function handleCardLike(cardId, likes) {
+        const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
+        //Отправляем запрос в API и получаем обновлённые данные карточки
+        if (!isLiked) {
+            api.addLike(cardId).then((newCard) => {
+                setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c)) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
+            })
+        } else {
+            api.deleteLike(cardId).then((newCard) => {
+                setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
+            })
+        }
+
+    }
+
     // запрос данных пользователя и карточек с сервера
     useEffect(() => {
         api.getImages()
@@ -39,7 +54,7 @@ function Main(props) {
             <section className="elements">
                 {/**  заготовка для изображения пользователя (карточки) */}
                 {cards.map(card => {
-                    return <Card key={card._id} id={card._id} name={card.name} src={card.link} likes={card.likes} onImageClick={props.onCardClick} />
+                    return <Card key={card._id} id={card._id} name={card.name} src={card.link} likes={card.likes} onImageClick={props.onCardClick} onCardLike={handleCardLike} />
                 })}
             </section>
         </main>
