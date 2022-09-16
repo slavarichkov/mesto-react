@@ -5,6 +5,7 @@ import currentUserContext from '../contexts/CurrentUserContext';
 function Card({ id, src, name, onImageClick, likes }) {
 
     const userInfo = React.useContext(currentUserContext);
+    const isOwn = id === userInfo._id;
 
     function handleImageClick() {
         onImageClick({ src: src, name: name });
@@ -20,7 +21,11 @@ function Card({ id, src, name, onImageClick, likes }) {
                         <button className="element__like" type="button"></button>
                         <h2 className="element__like-sum">{likes}</h2>
                     </div>
-                    <button className="element__button-delete"></button>
+                    ${isOwn ?
+                        <button className="element__button-delete"></button>
+                        :
+                        <></>
+                    }
                 </div>
             </div>
         </div>
