@@ -2,7 +2,7 @@ import React from 'react';
 import currentUserContext from '../contexts/CurrentUserContext';
 
 
-function Card({ id, src, name, onImageClick, likes, onCardLike }) {
+function Card({ id, src, name, onImageClick, likes, onCardLike, onCardDelete }) {
 
     const userInfo = React.useContext(currentUserContext);
     const isOwn = id === userInfo._id; //проверка для кнопки удаления
@@ -13,8 +13,14 @@ function Card({ id, src, name, onImageClick, likes, onCardLike }) {
         onImageClick({ src: src, name: name }); // прокинуть параметры для масштабируемого изображения
     }
 
+    //лайк
     function handleLikeClick() {
         onCardLike(id, likes)
+    }
+
+    //удалить карточку
+    function handleDeleteClick() {
+        onCardDelete(id)
     }
 
     return (
@@ -24,11 +30,15 @@ function Card({ id, src, name, onImageClick, likes, onCardLike }) {
                 <div className="element__group">
                     <h2 className="element__title">{name}</h2>
                     <div>
-                        <button className={`element__like ${isLiked? 'element__like_activeted' : ''}`} type="button" onClick={handleLikeClick}></button>
+                        <button // кнопка лайка
+                            className={`element__like ${isLiked ? 'element__like_activeted' : ''}`}
+                            type="button"
+                            onClick={handleLikeClick}>
+                        </button>
                         <h2 className="element__like-sum">{likes.length}</h2>
                     </div>
                     {isOwn ?
-                        <button className="element__button-delete"></button>
+                        <button className="element__button-delete" onClick={handleDeleteClick}></button> //кнопка удаления карточки
                         :
                         <></>
                     }

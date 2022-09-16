@@ -9,6 +9,7 @@ function Main(props) {
     const userInfo = React.useContext(currentUserContext);
     const [cards, setCards] = useState([]);
 
+    // управлять лайком
     function handleCardLike(cardId, likes) {
         const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
         //Отправляем запрос в API и получаем обновлённые данные карточки
@@ -22,6 +23,13 @@ function Main(props) {
             })
         }
 
+    }
+
+    //удаление карточки
+    function handleCardDelete(cardId) {
+        api.deleteCard(cardId).then((newCard) => {
+            setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
+        })
     }
 
     // запрос данных пользователя и карточек с сервера
@@ -54,7 +62,16 @@ function Main(props) {
             <section className="elements">
                 {/**  заготовка для изображения пользователя (карточки) */}
                 {cards.map(card => {
-                    return <Card key={card._id} id={card._id} name={card.name} src={card.link} likes={card.likes} onImageClick={props.onCardClick} onCardLike={handleCardLike} />
+                    return <Card
+                        key={card._id}
+                        id={card._id}
+                        name={card.name}
+                        src={card.link}
+                        likes={card.likes}
+                        onImageClick={props.onCardClick}
+                        onCardLike={handleCardLike}
+                        onCardDelete={handleCardDelete}
+                    />
                 })}
             </section>
         </main>
