@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import api from './../utils/Api';
 import Card from '../components/Card';
+import currentUserContext from '../contexts/CurrentUserContext';
 
 
 function Main(props) {
 
-    const [userName, setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar, setUserAvatar] = useState('');
+    const userInfo = React.useContext(currentUserContext);
+
     const [cards, setCards] = useState([]);
 
     // запрос данных пользователя и карточек с сервера
     useEffect(() => {
-        Promise.all([api.getUserInfo(), api.getImages()])
-            .then(([infoUser, initialCards]) => {
-                setUserName(infoUser.name);
-                setUserDescription(infoUser.about);
-                setUserAvatar(infoUser.avatar);
+        api.getImages()
+            .then((initialCards) => {
                 setCards(initialCards);
             })
             .catch((err) => {
@@ -28,15 +25,15 @@ function Main(props) {
         <main>
             <section className="profile">
                 <div className="profile__container">
-                    <img className="profile__avatar" src={userAvatar} alt="Аватар"></img>
+                    <img className="profile__avatar" src={userInfo.avatar} alt="Аватар"></img>
                     <button className="profile__avatar-edit-button" type="button" onClick={props.onEditAvatar}></button>
                 </div>
                 <div className="profile__profile-info">
                     <div className="profile__content">
-                        <h1 className="profile__firstname">{userName}</h1>
+                        <h1 className="profile__firstname">{userInfo.name}</h1>
                         <button className="profile__edit-button" type="button" onClick={props.onEditProfile}></button>
                     </div>
-                    <p className="profile__subtext">{userDescription}</p>
+                    <p className="profile__subtext">{userInfo.about}</p>
                 </div>
                 <button className="profile__add-button" type="button" onClick={props.onAddPlace}></button>
             </section>

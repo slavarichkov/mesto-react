@@ -1,7 +1,10 @@
 import React from 'react';
+import currentUserContext from '../contexts/CurrentUserContext';
 
 
 function Card({ id, src, name, onImageClick, likes }) {
+
+    const userInfo = React.useContext(currentUserContext);
 
     function handleImageClick() {
         onImageClick({ src: src, name: name });
