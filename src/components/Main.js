@@ -7,7 +7,6 @@ import currentUserContext from '../contexts/CurrentUserContext';
 function Main(props) {
 
     const userInfo = React.useContext(currentUserContext);
-
     const [cards, setCards] = useState([]);
 
     // запрос данных пользователя и карточек с сервера
@@ -40,7 +39,7 @@ function Main(props) {
             <section className="elements">
                 {/**  заготовка для изображения пользователя (карточки) */}
                 {cards.map(card => {
-                    return <Card key={card._id} id={card._id} name={card.name} src={card.link} likes={card.likes.length} onImageClick={props.onCardClick} />
+                    return <Card key={card._id} id={card._id} name={card.name} src={card.link} likes={card.likes} onImageClick={props.onCardClick} />
                 })}
             </section>
         </main>
