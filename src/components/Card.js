@@ -3,7 +3,7 @@ import currentUserContext from '../contexts/CurrentUserContext';
 
 
 function Card({ id, src, name, onImageClick, likes }) {
-
+console.log(currentUserContext)
     const userInfo = React.useContext(currentUserContext);
     const isOwn = id === userInfo._id;
 
