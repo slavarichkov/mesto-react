@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import currentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -84,6 +85,8 @@ function App() {
     }
   }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
 
+
+
   return (
     <currentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -91,23 +94,11 @@ function App() {
         <Main onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick} />
-        {/**  <!--Попап Редактирование профиля --> */}
-        <PopupWithForm name='popup_user_input'
-          text='Редактировать профиль'
-          isOpen={isEditProfilePopupOpen}
-          isClose={closeAllPopups}
-          children={
-            <>
-              <input type="text" placeholder="Имя" className="popup__input popup__input_field_firstname"
-                name="firstname" id="username-input" minLength="2" maxLength="40" required />
-              <input type="text" placeholder="Профессия" className="popup__input"
-                name="profession" id="profession-input" minLength="2" maxLength="200" required />
-            </>
-          }
+          onCardClick={handleCardClick}
         />
         <Footer />
-
+        {/**  <!--Попап Редактирование профиля --> */}
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         {/** <!--Попап добавление изображений пользователем --> */}
         <PopupWithForm name='popup_image_content'
           text='Новое место'
