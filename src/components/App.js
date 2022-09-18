@@ -98,7 +98,7 @@ function App() {
         />
         <Footer />
         {/**  <!--Попап Редактирование профиля --> */}
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} />
         {/** <!--Попап добавление изображений пользователем --> */}
         <PopupWithForm name='popup_image_content'
           text='Новое место'

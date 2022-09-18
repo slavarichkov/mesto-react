@@ -46,6 +46,5 @@ function Card({ id, src, name, onImageClick, likes, onCardLike, onCardDelete }) 
             </div>
         </div>
     )
-    // <button className={`element__like ${isLiked ? 'element__like_activeted' : ''}`} type="button" onClick={handleLikeClick}></button>
 }
 export default Card;

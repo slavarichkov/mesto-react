@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PopupWithForm from './PopupWithForm';
+import currentUserContext from '../contexts/CurrentUserContext';
+import api from './../utils/Api';
 
 
 //редактирование профиля
 function EditProfilePopup({ isOpen, isClose }) {
+
+    //данные юзера в стейт
+    const currentUser = useContext(currentUserContext);
+
+    // Стейты, в которых содержятся значения инпута
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+
+    //указать данные юзера в инпуты
+    useEffect(() => {
+        setName(currentUser.name);
+        setDescription(currentUser.about);
+    }, [currentUser])
+
+    // Обработчики изменения инпута - обновляет стейт
+    function handleChangeName(e) {
+        setName(e.target.value);
+    }
+
+    function handleChangeDescription(e) {
+        setDescription(e.target.value);
+    }
 
     return (
         < PopupWithForm name='popup_user_input'
@@ -13,9 +37,11 @@ function EditProfilePopup({ isOpen, isClose }) {
             children={
                 <>
                     <input type="text" placeholder="Имя" className="popup__input popup__input_field_firstname"
-                        name="firstname" id="username-input" minLength="2" maxLength="40" required />
+                        name="firstname" id="username-input" minLength="2" maxLength="40" required
+                        value={name} onChange={handleChangeName} />
                     <input type="text" placeholder="Профессия" className="popup__input"
-                        name="profession" id="profession-input" minLength="2" maxLength="200" required />
+                        name="profession" id="profession-input" minLength="2" maxLength="200" required
+                        value={description} onChange={handleChangeDescription} />
                 </>
             }
         />
