@@ -2,14 +2,15 @@ import React from 'react';
 import currentUserContext from '../contexts/CurrentUserContext';
 
 
-function Card({ id, src, name, onImageClick, likes, onCardLike, onCardDelete }) {
+function Card({ id, src, name, onImageClick, likes, onCardLike, onCardDelete, ownerId }) {
 
     const userInfo = React.useContext(currentUserContext);
-    const isOwn = id === userInfo._id; //проверка для кнопки удаления
+    const isOwn = ownerId === userInfo._id; //проверка для кнопки удаления
     const isLiked = likes.some(item => userInfo._id === item._id); // проверка для отображения лайка
 
     function handleImageClick() {
         onImageClick({ src: src, name: name }); // прокинуть параметры для масштабируемого изображения
+        console.log(test)
     }
 
     //лайк

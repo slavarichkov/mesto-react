@@ -139,6 +139,12 @@ function App() {
     api.deleteCard(cardId).then((newCard) => {
       setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
     })
+    
+  }
+
+  //отправка карточки на сервер и обновление стейта для отрисовки 
+  function handleAddPlaceSubmit(data) {
+    api.sendImages(data).then((newCard) => { setCards([newCard, ...cards]); setIsAddPlacePopupOpen(false) })
   }
 
 
@@ -158,7 +164,7 @@ function App() {
         {/**  <!--Попап Редактирование профиля --> */}
         <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         {/** <!--Попап добавление изображений(карточек) пользователем --> */}
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} isClose={closeAllPopups} />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} isClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
         {/** <!--Попап форма редактирования аватара --> */}
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         {/** <!-- Попап подтверждения удаления карточки --> */}

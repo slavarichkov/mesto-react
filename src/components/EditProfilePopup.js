@@ -13,7 +13,7 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
 
-    //указать данные юзера в инпуты
+    //передать данные юзера в инпуты
     useEffect(() => {
         setName(currentUser.name);
         setDescription(currentUser.about);
@@ -31,7 +31,6 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
     }
 
     //отправка на сервер 
-
     function handleSubmit(e) {
         e.preventDefault();
         onUpdateUser({

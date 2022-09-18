@@ -1,83 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import api from './../utils/Api';
+import React from 'react';
 import Card from '../components/Card';
 import currentUserContext from '../contexts/CurrentUserContext';
 
 
 function Main(props) {
 
-    //const userInfo = React.useContext(currentUserContext);
-    // const [cards, setCards] = useState([]);
-
-    // управлять лайком
-    // function handleCardLike(cardId, likes) {
-    //     const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
-    //     //Отправляем запрос в API и получаем обновлённые данные карточки
-    //     if (!isLiked) {
-    //         api.addLike(cardId).then((newCard) => {
-    //             setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c)) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
-    //         })
-    //     } else {
-    //         api.deleteLike(cardId).then((newCard) => {
-    //             setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
-    //         })
-    //     }
-    // }
-
-    //удаление карточки
-    // function handleCardDelete(cardId) {
-    //     api.deleteCard(cardId).then((newCard) => {
-    //         setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
-    //     })
-    // }
-
-    // запрос данных пользователя и карточек с сервера
-    // useEffect(() => {
-    //     api.getImages()
-    //         .then((initialCards) => {
-    //             setCards(initialCards);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    // }, []);
-
     const userInfo = React.useContext(currentUserContext);
-    // const [cards, setCards] = useState([]);
-
-    // // управлять лайком
-    // function handleCardLike(cardId, likes) {
-    //     const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
-    //     //Отправляем запрос в API и получаем обновлённые данные карточки
-    //     if (!isLiked) {
-    //         api.addLike(cardId).then((newCard) => {
-    //             setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c)) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
-    //         })
-    //     } else {
-    //         api.deleteLike(cardId).then((newCard) => {
-    //             setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
-    //         })
-    //     }
-
-    // }
-
-    // //удаление карточки
-    // function handleCardDelete(cardId) {
-    //     api.deleteCard(cardId).then((newCard) => {
-    //         setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
-    //     })
-    // }
-
-    // // запрос данных пользователя и карточек с сервера
-    // useEffect(() => {
-    //     api.getImages()
-    //         .then((initialCards) => {
-    //             setCards(initialCards);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    // }, []);
 
     return (
         <main>
@@ -100,6 +28,7 @@ function Main(props) {
                 {props.cards.map(card => {
                     return <Card
                         key={card._id}
+                        ownerId ={card.owner._id}
                         id={card._id}
                         name={card.name}
                         src={card.link}
