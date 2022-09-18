@@ -19,6 +19,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
 
+
   // функции открытия попапов
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -88,6 +89,7 @@ function App() {
       })
   }, [])
 
+
   //Слушатели на закрытие попапов по Esc или клику на оверлей
   useEffect(() => {
     if (
@@ -103,6 +105,42 @@ function App() {
   }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
 
 
+  const [cards, setCards] = useState([]);
+  const userInfo = React.useContext(currentUserContext);
+
+  // запрос данных пользователя и карточек с сервера
+  useEffect(() => {
+    api.getImages()
+      .then((initialCards) => {
+        setCards(initialCards);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, []);
+
+  // управлять лайком
+  function handleCardLike(cardId, likes) {
+    const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
+    //Отправляем запрос в API и получаем обновлённые данные карточки
+    if (!isLiked) {
+      api.addLike(cardId).then((newCard) => {
+        setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c)) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
+      })
+    } else {
+      api.deleteLike(cardId).then((newCard) => {
+        setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
+      })
+    }
+  }
+
+  //удаление карточки
+  function handleCardDelete(cardId) {
+    api.deleteCard(cardId).then((newCard) => {
+      setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
+    })
+  }
+
 
   return (
     <currentUserContext.Provider value={currentUser}>
@@ -112,12 +150,15 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
         {/**  <!--Попап Редактирование профиля --> */}
         <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         {/** <!--Попап добавление изображений(карточек) пользователем --> */}
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} isClose={closeAllPopups}  />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} isClose={closeAllPopups} />
         {/** <!--Попап форма редактирования аватара --> */}
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         {/** <!-- Попап подтверждения удаления карточки --> */}

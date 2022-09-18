@@ -7,7 +7,6 @@ function Card({ id, src, name, onImageClick, likes, onCardLike, onCardDelete }) 
     const userInfo = React.useContext(currentUserContext);
     const isOwn = id === userInfo._id; //проверка для кнопки удаления
     const isLiked = likes.some(item => userInfo._id === item._id); // проверка для отображения лайка
-    //console.log(userInfo._id)
 
     function handleImageClick() {
         onImageClick({ src: src, name: name }); // прокинуть параметры для масштабируемого изображения
