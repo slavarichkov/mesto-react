@@ -7,6 +7,7 @@ import ImagePopup from './ImagePopup';
 import currentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -65,8 +66,13 @@ function App() {
 
   //пробросить данные из EditProfilePopup наверх для Апи и обновления стейта currentUser
   function handleUpdateUser(data) {
-     api.sendUserInfo(data).then((dataUser)=>{setCurrentUser(dataUser); setIsEditProfilePopupOpen(false)});
-    
+    api.sendUserInfo(data).then((dataUser) => { setCurrentUser(dataUser); setIsEditProfilePopupOpen(false) });
+
+  }
+
+  //пробросить данные для обновления аватара и отправки на сервер
+  function handleUpdateAvatar(data) {
+    api.sendAvatar(data).then((dataAvatar) => { setCurrentUser(dataAvatar); setIsEditAvatarPopupOpen(false) })
   }
 
 
@@ -108,7 +114,7 @@ function App() {
         />
         <Footer />
         {/**  <!--Попап Редактирование профиля --> */}
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} onUpdateUser= {handleUpdateUser} />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         {/** <!--Попап добавление изображений пользователем --> */}
         <PopupWithForm name='popup_image_content'
           text='Новое место'
@@ -124,15 +130,7 @@ function App() {
           }
         />
         {/** <!--Попап форма редактирования аватара --> */}
-        <PopupWithForm name='popup_avatar_redact'
-          text='Обновить аватар'
-          isOpen={isEditAvatarPopupOpen}
-          isClose={closeAllPopups}
-          children={
-            <input type="url" placeholder="Ссылка" className="popup__input popup__input_name_image"
-              name="link" id="ava-link" required />
-          }
-        />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         {/** <!-- Попап подтверждения удаления карточки --> */}
         <PopupWithForm name='popup_card_remove'
           text='Вы уверены?'

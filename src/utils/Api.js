@@ -66,7 +66,7 @@ class Api {
                 authorization: this.token,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ avatar: data.link }),
+            body: JSON.stringify({ avatar: data.avatar }),
         }).then((res) => this._getResponse(res));
     }
 
