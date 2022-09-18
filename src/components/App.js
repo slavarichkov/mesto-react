@@ -8,6 +8,7 @@ import currentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -115,20 +116,8 @@ function App() {
         <Footer />
         {/**  <!--Попап Редактирование профиля --> */}
         <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-        {/** <!--Попап добавление изображений пользователем --> */}
-        <PopupWithForm name='popup_image_content'
-          text='Новое место'
-          isOpen={isAddPlacePopupOpen}
-          isClose={closeAllPopups}
-          children={
-            <>
-              <input type="text" placeholder="Название" className="popup__input popup__input_name_image"
-                name="image-title" id="input-image" minLength="2" maxLength="30" required />
-              <input type="url" placeholder="Ссылка на картинку" className="popup__input popup__input_link_image"
-                name="link" id="profession-input" required />
-            </>
-          }
-        />
+        {/** <!--Попап добавление изображений(карточек) пользователем --> */}
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} isClose={closeAllPopups}  />
         {/** <!--Попап форма редактирования аватара --> */}
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         {/** <!-- Попап подтверждения удаления карточки --> */}
