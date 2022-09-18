@@ -137,9 +137,15 @@ function App() {
   //удаление карточки
   function handleCardDelete(cardId) {
     api.deleteCard(cardId).then((newCard) => {
-      setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
+      api.getImages()
+        .then((initialCards) => {
+          setCards(initialCards);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     })
-    
+
   }
 
   //отправка карточки на сервер и обновление стейта для отрисовки 

@@ -8,6 +8,7 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
 
     //данные юзера в стейт
     const currentUser = useContext(currentUserContext);
+    console.log(currentUser);
 
     // Стейты, в которых содержятся значения инпута
     const [name, setName] = useState('');
@@ -49,10 +50,10 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
                 <>
                     <input type="text" placeholder="Имя" className="popup__input popup__input_field_firstname"
                         name="firstname" id="username-input" minLength="2" maxLength="40" required
-                        value={name} onChange={handleChangeName} />
+                        value={name || ''} onChange={handleChangeName} />
                     <input type="text" placeholder="Профессия" className="popup__input"
                         name="profession" id="profession-input" minLength="2" maxLength="200" required
-                        value={description} onChange={handleChangeDescription} />
+                        value={description || ''} onChange={handleChangeDescription} />
                 </>
             }
         />

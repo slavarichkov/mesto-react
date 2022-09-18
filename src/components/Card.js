@@ -10,7 +10,6 @@ function Card({ id, src, name, onImageClick, likes, onCardLike, onCardDelete, ow
 
     function handleImageClick() {
         onImageClick({ src: src, name: name }); // прокинуть параметры для масштабируемого изображения
-        console.log(test)
     }
 
     //лайк
