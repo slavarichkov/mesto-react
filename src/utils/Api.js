@@ -33,7 +33,7 @@ class Api {
                 authorization: this.token,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: data.firstname, about: data.profession }),
+            body: JSON.stringify({ name: data.name , about: data.about }),
         }).then((res) => this._getResponse(res));
     }
 

@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PopupWithForm from './PopupWithForm';
 import currentUserContext from '../contexts/CurrentUserContext';
-import api from './../utils/Api';
 
 
 //редактирование профиля
-function EditProfilePopup({ isOpen, isClose }) {
+function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
 
     //данные юзера в стейт
     const currentUser = useContext(currentUserContext);
@@ -20,6 +19,8 @@ function EditProfilePopup({ isOpen, isClose }) {
         setDescription(currentUser.about);
     }, [currentUser])
 
+
+
     // Обработчики изменения инпута - обновляет стейт
     function handleChangeName(e) {
         setName(e.target.value);
@@ -29,11 +30,22 @@ function EditProfilePopup({ isOpen, isClose }) {
         setDescription(e.target.value);
     }
 
+    //отправка на сервер 
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        onUpdateUser({
+            name,
+            about: description,
+        });
+    }
+
     return (
         < PopupWithForm name='popup_user_input'
             text='Редактировать профиль'
             isOpen={isOpen}
             isClose={isClose}
+            onSubmit={handleSubmit}
             children={
                 <>
                     <input type="text" placeholder="Имя" className="popup__input popup__input_field_firstname"

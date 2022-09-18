@@ -17,17 +17,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
 
-  // запрос данных пользователя и карточек с сервера
-  useEffect(() => {
-    api.getUserInfo()
-      .then((infoUser) => {
-        setCurrentUser(infoUser);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }, [])
-
   // функции открытия попапов
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -60,18 +49,39 @@ function App() {
     setIsImagePopupOpened(false);
   }
 
+  //закрыть на Esc
   function handleCloseAllPopupsEcs(e) {
     if (e.key === "Escape") {
       closeAllPopups(e);
     }
   }
 
+  //закрыть на оверлей
   function handleCloseAllPopupsClickOverlay(e) {
     if (e.target.classList.contains('popup_overlay')) {
       closeAllPopups(e);
     }
   }
 
+  //пробросить данные из EditProfilePopup наверх для Апи и обновления стейта currentUser
+  function handleUpdateUser(data) {
+     api.sendUserInfo(data).then((dataUser)=>{setCurrentUser(dataUser); setIsEditProfilePopupOpen(false)});
+    
+  }
+
+
+  // запрос данных пользователя и карточек с сервера
+  useEffect(() => {
+    api.getUserInfo()
+      .then((infoUser) => {
+        setCurrentUser(infoUser);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
+
+  //Слушатели на закрытие попапов по Esc или клику на оверлей
   useEffect(() => {
     if (
       [isEditAvatarPopupOpen, isAddPlacePopupOpen, isDeletePlacePopupOpen, isEditProfilePopupOpen, isImagePopupOpened].includes(true)
@@ -98,7 +108,7 @@ function App() {
         />
         <Footer />
         {/**  <!--Попап Редактирование профиля --> */}
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} isClose={closeAllPopups} onUpdateUser= {handleUpdateUser} />
         {/** <!--Попап добавление изображений пользователем --> */}
         <PopupWithForm name='popup_image_content'
           text='Новое место'
