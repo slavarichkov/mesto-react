@@ -1,9 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup({ isOpen, isClose, onUpdateAvatar }) {
 
     const inputRef = useRef();
+    const [link, setLink] = useState('');
+
+    function handleChange(e) {
+        setLink(e.target.value);
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -12,15 +17,20 @@ function EditAvatarPopup({ isOpen, isClose, onUpdateAvatar }) {
         });
     }
 
+    //очистить инпуты после сабмита
+    useEffect(() => {
+        setLink('');
+    }, [isOpen])
+
     return (
         <PopupWithForm name='popup_avatar_redact'
             text='Обновить аватар'
             isOpen={isOpen}
             isClose={isClose}
-            onSubmit = {handleSubmit}
+            onSubmit={handleSubmit}
             children={
-                <input ref={inputRef} type="url" placeholder="Ссылка" className="popup__input popup__input_name_image"
-                    name="link" id="ava-link"  required />
+                <input value={link} ref={inputRef} type="url" placeholder="Ссылка" className="popup__input popup__input_name_image"
+                    name="link" id="ava-link" onChange={handleChange} required />
             }
         />
     )

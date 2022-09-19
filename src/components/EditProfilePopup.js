@@ -2,13 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import PopupWithForm from './PopupWithForm';
 import currentUserContext from '../contexts/CurrentUserContext';
 
-
 //редактирование профиля
 function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
 
-    //данные юзера в стейт
+    //данные юзера 
     const currentUser = useContext(currentUserContext);
-    console.log(currentUser);
 
     // Стейты, в которых содержятся значения инпута
     const [name, setName] = useState('');
@@ -18,9 +16,7 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
     useEffect(() => {
         setName(currentUser.name);
         setDescription(currentUser.about);
-    }, [currentUser])
-
-
+    }, [currentUser, isOpen])
 
     // Обработчики изменения инпута - обновляет стейт
     function handleChangeName(e) {
@@ -58,7 +54,6 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
             }
         />
     )
-
 }
 
 export default EditProfilePopup;

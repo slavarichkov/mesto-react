@@ -15,7 +15,6 @@ class Api {
         }
     }
 
-
     // запрос данных пользователя
     getUserInfo() {
         return fetch(`${this.host}users/me`, {
@@ -33,7 +32,7 @@ class Api {
                 authorization: this.token,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: data.name , about: data.about }),
+            body: JSON.stringify({ name: data.name, about: data.about }),
         }).then((res) => this._getResponse(res));
     }
 
@@ -100,7 +99,6 @@ class Api {
         }).then((res) => this._getResponse(res));
     }
 }
-
 
 const api = new Api({
     host: 'https://mesto.nomoreparties.co/v1/cohort-47/',

@@ -19,7 +19,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
 
-
   // функции открытия попапов
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -69,14 +68,12 @@ function App() {
   //пробросить данные из EditProfilePopup наверх для Апи и обновления стейта currentUser
   function handleUpdateUser(data) {
     api.sendUserInfo(data).then((dataUser) => { setCurrentUser(dataUser); setIsEditProfilePopupOpen(false) });
-
   }
 
   //пробросить данные для обновления аватара и отправки на сервер
   function handleUpdateAvatar(data) {
     api.sendAvatar(data).then((dataAvatar) => { setCurrentUser(dataAvatar); setIsEditAvatarPopupOpen(false) })
   }
-
 
   // запрос данных пользователя и карточек с сервера
   useEffect(() => {
@@ -88,7 +85,6 @@ function App() {
         console.log(err);
       })
   }, [])
-
 
   //Слушатели на закрытие попапов по Esc или клику на оверлей
   useEffect(() => {
@@ -103,7 +99,6 @@ function App() {
       }
     }
   }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
-
 
   const [cards, setCards] = useState([]);
   const userInfo = React.useContext(currentUserContext);
@@ -145,14 +140,12 @@ function App() {
           console.log(err);
         })
     })
-
   }
 
   //отправка карточки на сервер и обновление стейта для отрисовки 
   function handleAddPlaceSubmit(data) {
     api.sendImages(data).then((newCard) => { setCards([newCard, ...cards]); setIsAddPlacePopupOpen(false) })
   }
-
 
   return (
     <currentUserContext.Provider value={currentUser}>

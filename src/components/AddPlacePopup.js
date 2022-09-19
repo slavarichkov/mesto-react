@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup({ isOpen, isClose, onAddPlace }) {
@@ -23,7 +23,15 @@ function AddPlacePopup({ isOpen, isClose, onAddPlace }) {
             image_title: nameImage,
             link: link,
         });
+        setNameImage('');
+        setLink('');
     }
+
+    //очистить инпуты после сабмита
+    useEffect(() => {
+        setNameImage('');
+        setLink('');
+    }, [isOpen])
 
     return (
         <PopupWithForm name='popup_image_content'
@@ -33,9 +41,9 @@ function AddPlacePopup({ isOpen, isClose, onAddPlace }) {
             onSubmit={handleSubmit}
             children={
                 <>
-                    <input type="text" placeholder="Название" className="popup__input popup__input_name_image"
+                    <input value={nameImage} type="text" placeholder="Название" className="popup__input popup__input_name_image"
                         name="image-title" id="input-image" minLength="2" maxLength="30" onChange={handleChangeNameImage} required />
-                    <input type="url" placeholder="Ссылка на картинку" className="popup__input popup__input_link_image"
+                    <input value={link} type="url" placeholder="Ссылка на картинку" className="popup__input popup__input_link_image"
                         name="link" id="profession-input" onChange={handleChangeLink} required />
                 </>
             }
