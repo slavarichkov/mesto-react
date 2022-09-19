@@ -11,6 +11,8 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
     // Стейты, в которых содержятся значения инпута
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [validationMassegeName, setValidationMassegeName] = useState('');
+    const [validationMassegeDescription, setValidationMassegeDescription] = useState('');
 
     //передать данные юзера в инпуты
     useEffect(() => {
@@ -21,10 +23,12 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
     // Обработчики изменения инпута - обновляет стейт
     function handleChangeName(e) {
         setName(e.target.value);
+        setValidationMassegeName(e.target.validationMessage);
     }
 
     function handleChangeDescription(e) {
         setDescription(e.target.value);
+        setValidationMassegeDescription(e.target.validationMessage);
     }
 
     //отправка на сервер 
@@ -42,14 +46,21 @@ function EditProfilePopup({ isOpen, isClose, onUpdateUser }) {
             isOpen={isOpen}
             isClose={isClose}
             onSubmit={handleSubmit}
+            validationOptions={(validationMassegeName === '' & validationMassegeDescription === '') ? false : true}
             children={
                 <>
-                    <input type="text" placeholder="Имя" className="popup__input popup__input_field_firstname"
-                        name="firstname" id="username-input" minLength="2" maxLength="40" required
-                        value={name || ''} onChange={handleChangeName} />
-                    <input type="text" placeholder="Профессия" className="popup__input"
-                        name="profession" id="profession-input" minLength="2" maxLength="200" required
-                        value={description || ''} onChange={handleChangeDescription} />
+                    <div className="popup__input-conainer">
+                        <input type="text" placeholder="Имя" className="popup__input popup__input_field_firstname"
+                            name="firstname" id="username-input" minLength="2" maxLength="40" required
+                            value={name || ''} onChange={handleChangeName} />
+                        <span className="popup__text-error" id="error-firstname">{validationMassegeName}</span>
+                    </div>
+                    <div className="popup__input-conainer">
+                        <input type="text" placeholder="Профессия" className="popup__input"
+                            name="profession" id="profession-input" minLength="2" maxLength="200" required
+                            value={description || ''} onChange={handleChangeDescription} />
+                        <span className="popup__text-error" id="error-firstname">{validationMassegeDescription}</span>
+                    </div>
                 </>
             }
         />

@@ -5,9 +5,11 @@ function EditAvatarPopup({ isOpen, isClose, onUpdateAvatar }) {
 
     const inputRef = useRef();
     const [link, setLink] = useState('');
+    const [validationMassegeLink, setValidationMassegeLink] = useState('');
 
     function handleChange(e) {
         setLink(e.target.value);
+        setValidationMassegeLink(e.target.validationMessage);
     }
 
     function handleSubmit(e) {
@@ -20,6 +22,7 @@ function EditAvatarPopup({ isOpen, isClose, onUpdateAvatar }) {
     //очистить инпуты после сабмита
     useEffect(() => {
         setLink('');
+        setValidationMassegeLink('Введите ссылку для изображения')
     }, [isOpen])
 
     return (
@@ -28,9 +31,13 @@ function EditAvatarPopup({ isOpen, isClose, onUpdateAvatar }) {
             isOpen={isOpen}
             isClose={isClose}
             onSubmit={handleSubmit}
+            validationOptions={(validationMassegeLink === '') ? false : true}
             children={
-                <input value={link} ref={inputRef} type="url" placeholder="Ссылка" className="popup__input popup__input_name_image"
-                    name="link" id="ava-link" onChange={handleChange} required />
+                <div className="popup__input-conainer">
+                    <input value={link} ref={inputRef} type="url" placeholder="Ссылка" className="popup__input popup__input_name_image"
+                        name="link" id="ava-link" onChange={handleChange} required />
+                    <span className="popup__text-error" id="error-firstname">{validationMassegeLink}</span>
+                </div>
             }
         />
     )
