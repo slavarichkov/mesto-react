@@ -21,7 +21,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(false);
-  const userInfo = React.useContext(currentUserContext);
 
   // функции открытия попапов
   function handleEditAvatarClick() {
@@ -79,6 +78,7 @@ function App() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   }
@@ -93,6 +93,7 @@ function App() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       })
   }
@@ -106,6 +107,7 @@ function App() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       })
   }, [])
@@ -133,13 +135,14 @@ function App() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       })
   }, []);
 
   // управлять лайком
   function handleCardLike(cardId, likes) {
-    const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
+    const isLiked = likes.some(i => i._id === currentUser._id); // проверяем, есть ли уже лайк на этой карточке
     //Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked) {
       setLoading(true);
@@ -147,17 +150,21 @@ function App() {
         .then((newCard) => {
           setLoading(false);
           setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
-            .catch((err) => {
-              console.log(err);
-            }) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
         })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        }) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
     } else {
+      setLoading(true);
       api.deleteLike(cardId)
         .then((newCard) => {
+          setLoading(false);
           setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
-            .catch((err) => {
-              console.log(err);
-            })
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
         })
     }
   }
