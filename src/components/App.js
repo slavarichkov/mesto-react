@@ -9,6 +9,7 @@ import api from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import Spinner from './Spinner';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -19,6 +20,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(false);
   const userInfo = React.useContext(currentUserContext);
 
   // функции открытия попапов
@@ -69,10 +71,12 @@ function App() {
 
   //пробросить данные из EditProfilePopup наверх для Апи и обновления стейта currentUser
   function handleUpdateUser(data) {
+    setLoading(true);
     api.sendUserInfo(data)
       .then((dataUser) => {
         setCurrentUser(dataUser);
-        setIsEditProfilePopupOpen(false)
+        setIsEditProfilePopupOpen(false);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -81,10 +85,12 @@ function App() {
 
   //пробросить данные для обновления аватара и отправки на сервер
   function handleUpdateAvatar(data) {
+    setLoading(true);
     api.sendAvatar(data)
       .then((dataAvatar) => {
         setCurrentUser(dataAvatar);
-        setIsEditAvatarPopupOpen(false)
+        setIsEditAvatarPopupOpen(false);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -93,9 +99,11 @@ function App() {
 
   // запрос данных пользователя и карточек с сервера
   useEffect(() => {
+    setLoading(true);
     api.getUserInfo()
       .then((infoUser) => {
         setCurrentUser(infoUser);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -118,9 +126,11 @@ function App() {
 
   // запрос данных пользователя и карточек с сервера
   useEffect(() => {
+    setLoading(true);
     api.getImages()
       .then((initialCards) => {
         setCards(initialCards);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -132,8 +142,10 @@ function App() {
     const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
     //Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked) {
+      setLoading(true);
       api.addLike(cardId)
         .then((newCard) => {
+          setLoading(false);
           setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
             .catch((err) => {
               console.log(err);
@@ -152,8 +164,10 @@ function App() {
 
   //удаление карточки
   function handleCardDelete(cardId) {
+    setLoading(true);
     api.deleteCard(cardId)
       .then((newCard) => {
+        setLoading(false);
         setCards((cards) => cards.filter((c) => c._id !== cardId))
           .catch((err) => {
             console.log(err);
@@ -163,10 +177,12 @@ function App() {
 
   //отправка карточки на сервер и обновление стейта для отрисовки 
   function handleAddPlaceSubmit(data) {
+    setLoading(true);
     api.sendImages(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
-        setIsAddPlacePopupOpen(false)
+        setIsAddPlacePopupOpen(false);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -177,6 +193,7 @@ function App() {
     <currentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
+        {loading ? <Spinner /> : <></>}
         <Main onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
