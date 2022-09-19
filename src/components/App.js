@@ -18,6 +18,8 @@ function App() {
   const [isImagePopupOpened, setIsImagePopupOpened] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
+  const userInfo = React.useContext(currentUserContext);
 
   // функции открытия попапов
   function handleEditAvatarClick() {
@@ -67,12 +69,26 @@ function App() {
 
   //пробросить данные из EditProfilePopup наверх для Апи и обновления стейта currentUser
   function handleUpdateUser(data) {
-    api.sendUserInfo(data).then((dataUser) => { setCurrentUser(dataUser); setIsEditProfilePopupOpen(false) });
+    api.sendUserInfo(data)
+      .then((dataUser) => {
+        setCurrentUser(dataUser);
+        setIsEditProfilePopupOpen(false)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   //пробросить данные для обновления аватара и отправки на сервер
   function handleUpdateAvatar(data) {
-    api.sendAvatar(data).then((dataAvatar) => { setCurrentUser(dataAvatar); setIsEditAvatarPopupOpen(false) })
+    api.sendAvatar(data)
+      .then((dataAvatar) => {
+        setCurrentUser(dataAvatar);
+        setIsEditAvatarPopupOpen(false)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   // запрос данных пользователя и карточек с сервера
@@ -100,9 +116,6 @@ function App() {
     }
   }, [isEditAvatarPopupOpen, isAddPlacePopupOpen, isEditProfilePopupOpen, isDeletePlacePopupOpen, isImagePopupOpened]);
 
-  const [cards, setCards] = useState([]);
-  const userInfo = React.useContext(currentUserContext);
-
   // запрос данных пользователя и карточек с сервера
   useEffect(() => {
     api.getImages()
@@ -119,32 +132,45 @@ function App() {
     const isLiked = likes.some(i => i._id === userInfo._id); // проверяем, есть ли уже лайк на этой карточке
     //Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked) {
-      api.addLike(cardId).then((newCard) => {
-        setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c)) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
-      })
+      api.addLike(cardId)
+        .then((newCard) => {
+          setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
+            .catch((err) => {
+              console.log(err);
+            }) // данные карточки с лайком - стейт всех карточек -  мапом найти карточку с таким же айди, если нет, то новый стейт, если нет - не менять
+        })
     } else {
-      api.deleteLike(cardId).then((newCard) => {
-        setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
-      })
+      api.deleteLike(cardId)
+        .then((newCard) => {
+          setCards((cards) => cards.map((c) => c._id === cardId ? newCard : c))
+            .catch((err) => {
+              console.log(err);
+            })
+        })
     }
   }
 
   //удаление карточки
   function handleCardDelete(cardId) {
-    api.deleteCard(cardId).then((newCard) => {
-      api.getImages()
-        .then((initialCards) => {
-          setCards(initialCards);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    })
+    api.deleteCard(cardId)
+      .then((newCard) => {
+        setCards((cards) => cards.filter((c) => c._id !== cardId))
+          .catch((err) => {
+            console.log(err);
+          })
+      })
   }
 
   //отправка карточки на сервер и обновление стейта для отрисовки 
   function handleAddPlaceSubmit(data) {
-    api.sendImages(data).then((newCard) => { setCards([newCard, ...cards]); setIsAddPlacePopupOpen(false) })
+    api.sendImages(data)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        setIsAddPlacePopupOpen(false)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   return (
