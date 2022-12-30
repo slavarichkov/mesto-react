@@ -35,10 +35,6 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleDeletePlaceClick() {
-    setIsDeletePlace(true);
-  }
-
   function handleCardClick(dataCard) {
     setIsImagePopupOpened(true);
     setSelectedCard(dataCard); //пробросить данные открытой карточки из Card для добавления в попап масштабируемого изображения
